@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_21_111159) do
+ActiveRecord::Schema.define(version: 2020_11_21_225307) do
+
+  create_table "games", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "winner_id", null: false
+    t.float "winner_rating", null: false
+    t.bigint "loser_id", null: false
+    t.float "loser_rating", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["loser_id"], name: "index_games_on_loser_id"
+    t.index ["winner_id"], name: "index_games_on_winner_id"
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -23,4 +34,6 @@ ActiveRecord::Schema.define(version: 2020_11_21_111159) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "games", "users", column: "loser_id"
+  add_foreign_key "games", "users", column: "winner_id"
 end

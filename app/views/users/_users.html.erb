@@ -1,5 +1,5 @@
 <container class="text-center">
-  <h1><%= title %></h1>
+  <h1 class="m-5"><%= title %></h1>
     
   <table class="table">
     <thead>
@@ -16,7 +16,7 @@
         <% if user.wins + user.losses == 0 %>
           <% ratio = 0 %>
         <% else %>
-          <% ratio = user.wins / (user.wins + user.losses) %>
+          <% ratio = user.wins * 100 / (user.wins + user.losses) %>
         <% end %>
       <tr>
         <td><%= link_to user.name,user_path(user) %></td>
@@ -27,5 +27,6 @@
       </tr>
       <% end %>
     </tbody>
+    <%= paginate users %>
   </table>
 </container>

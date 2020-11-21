@@ -1,6 +1,13 @@
 <container class="text-center">
   <section>
-    <h1><%= @user.name %>'s Profile</h1>
+    <% if !logged_in? %>
+      <div class="m-5">
+        <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary' %>
+      </div>
+    <% elsif current_user != @user %>
+      <%= link_to "I defeated this player", input_user_path, data: { confirm: "対戦記録を付けますか？" }, class: 'btn btn-success mt-5 mb-3' %>
+    <% end %>
+    <h1 class="m-3"><%= @user.name %>'s Profile</h1>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -15,7 +22,7 @@
         <% if @user.wins + @user.losses == 0 %>
           <% ratio = 0 %>
         <% else %>
-          <% ratio = @user.wins / (@user.wins + @user.losses) %>
+          <% ratio = @user.wins * 100 / (@user.wins + @user.losses) %>
         <% end %>
         <tr>
           <td><%= link_to @user.name,user_path(@user) %></td>
@@ -28,7 +35,38 @@
     </table>
   </section>
   <section>
-    <h1>Last 5 Matches</h1>
-    
+    <h1 class="mt-5 mb-3">Last 5 Matches</h1>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Winner</th>
+          <th>Winner Rating</th>
+          <th> </th>
+          <th>Loser Rating</th>
+          <th>Loser</th>
+          <th>Matching Date</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @games.each do |game| %>
+        <tr>
+          <% if game.winner == @user %>
+            <td class="bg-info font-weight-bold"><%= link_to game.winner.name, game.winner, :style=>"color:white;" %></td>
+          <% else %>
+            <td><%= link_to game.winner.name,game.winner %></td>
+          <% end %>
+          <td><%= game.winner_rating %></td>
+          <td> vs </td>
+          <td><%= game.loser_rating %></td>
+          <% if game.loser == @user %>
+            <td class="bg-danger font-weight-bold"><%= link_to game.loser.name, game.loser, :style=>"color:white;" %></td>
+          <% else %>
+            <td><%= link_to game.loser.name, game.loser %></td>
+          <% end %>
+          <td><%= game.created_at.strftime('%Y-%m-%d %T') %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
   </section>
 </container>
