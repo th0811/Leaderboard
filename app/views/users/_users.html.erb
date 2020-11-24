@@ -20,7 +20,7 @@
         <% end %>
       <tr>
         <td><%= link_to user.name,user_path(user) %></td>
-        <td><%= user.rating %></td>
+        <td><%= format("%.2f", user.rating) %></td>
         <td><%= user.wins %></td>
         <td><%= ratio%> %</td>
         <td><%= user.updated_at.strftime('%Y-%m-%d %T') %></td>
