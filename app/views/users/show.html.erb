@@ -5,7 +5,7 @@
         <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary' %>
       </div>
     <% elsif current_user != @user %>
-      <%= link_to "I defeated this player", input_user_path, data: { confirm: "対戦記録を付けますか？" }, class: 'btn btn-success mt-5 mb-3' %>
+      <%= link_to "I defeated this player", input_user_path, data: { confirm: "you sure?" }, class: 'btn btn-success mt-5 mb-3' %>
     <% end %>
     <h1 class="m-3"><%= @user.name %>'s Profile</h1>
     <table class="table table-bordered">
@@ -35,7 +35,7 @@
     </table>
   </section>
   <section>
-    <h1 class="mt-5 mb-3">Last 5 Matches</h1>
+    <h1 class="mt-5 mb-3"><%= @user.name %>'s Records</h1>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -53,7 +53,7 @@
           <% if game.winner == @user %>
             <td class="bg-info font-weight-bold"><%= link_to game.winner.name, game.winner, :style=>"color:white;" %></td>
           <% else %>
-            <td><%= link_to game.winner.name,game.winner %></td>
+            <td><%= link_to game.winner.name, game.winner %></td>
           <% end %>
           <td><%= game.winner_rating %></td>
           <td> vs </td>
@@ -68,5 +68,6 @@
       <% end %>
       </tbody>
     </table>
+    <%= paginate @games %>
   </section>
 </container>
