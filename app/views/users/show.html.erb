@@ -61,7 +61,7 @@
           <% if game.loser == @user %>
             <td class="bg-danger font-weight-bold"><%= link_to game.loser.name, game.loser, :style=>"color:white;" %></td>
           <% else %>
-            <td><%= link_to format("%.2f", game.loser.name), game.loser %></td>
+            <td><%= link_to game.loser.name, game.loser %></td>
           <% end %>
           <td><%= game.created_at.strftime('%Y-%m-%d %T') %></td>
         </tr>
