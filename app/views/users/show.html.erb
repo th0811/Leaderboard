@@ -1,9 +1,7 @@
 <container class="text-center">
   <section>
     <% if !logged_in? %>
-      <div class="m-5">
-        <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary' %>
-      </div>
+        <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary m-5' %>
     <% elsif current_user != @user %>
       <%= link_to "I defeated this player", input_user_path, data: { confirm: "you sure?" }, class: 'btn btn-success mt-5 mb-3' %>
     <% end %>

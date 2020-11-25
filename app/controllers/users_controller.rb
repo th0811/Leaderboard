@@ -3,8 +3,14 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :input]
   
   def index
-    @users = User.order(name: :asc).page(params[:page]).per(10)
-    @title = 'Users list'
+    #@users = User.order(name: :asc).page(params[:page]).per(10)
+    @users = User.search(params[:search]).order(name: :asc).page(params[:page]).per(10)
+    if params[:search]
+      @title = 'Search Results'
+      @need_back = "need"
+    else
+      @title = 'Users list'
+    end
   end
 
   def show
