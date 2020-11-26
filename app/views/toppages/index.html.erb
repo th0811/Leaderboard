@@ -1,3 +1,8 @@
-
-<p class="text-center mt-3"><%= link_to 'sign up', signup_path, class: 'btn btn-success' %> or <%= link_to 'log in', login_path, class: 'btn btn-primary' %> for Leaderboard!</p>
+<% if !logged_in? %>
+  <div class="mt-2 row">
+      <div class="col offset-3 col-6 alert alert-warning" role="alert">
+        <p class="text-center mt-3"><%= link_to 'sign up', signup_path, class: 'btn btn-success' %> or <%= link_to 'log in', login_path, class: 'btn btn-primary' %> for Leaderboard!</p>
+      </div>
+  </div>
+<% end %>
 <%= render 'users/users', users: @users, title: @title %>
