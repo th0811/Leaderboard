@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_30_023949) do
+ActiveRecord::Schema.define(version: 2020_12_02_053659) do
+
+  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "game_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_comments_on_game_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
 
   create_table "games", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "winner_id", null: false
@@ -35,6 +45,8 @@ ActiveRecord::Schema.define(version: 2020_11_30_023949) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "comments", "games"
+  add_foreign_key "comments", "users"
   add_foreign_key "games", "users", column: "loser_id"
   add_foreign_key "games", "users", column: "winner_id"
 end

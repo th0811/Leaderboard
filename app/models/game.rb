@@ -7,6 +7,8 @@ class Game < ApplicationRecord
   validates :loser, presence: true
   validates :loser_rating, presence: true
   validate :winner_and_loser_cannot_be_same
+  
+  has_many :comments
 
   def winner_and_loser_cannot_be_same
     if winner == loser

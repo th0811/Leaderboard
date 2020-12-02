@@ -8,6 +8,7 @@ class User < ApplicationRecord
   
   has_many :won_games, class_name: 'Game', foreign_key: 'winner_id'
   has_many :lost_games, class_name: 'Game', foreign_key: 'loser_id'
+  has_many :comments
   
   def lastgames(num=nil)
     Game.where(winner_id: self.id).or(Game.where(loser_id: self.id)).order('created_at DESC').limit(num)

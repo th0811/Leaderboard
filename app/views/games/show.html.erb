@@ -1,8 +1,5 @@
 <container class="text-center">
   <section>
-    <% if !logged_in? %>
-      <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary m-5' %>
-    <% end %>
     <h1 class="m-3">Detail</h1>
     <table class="table table-bordered">
       <thead>
@@ -24,13 +21,38 @@
         </tr>
       </tbody>
     </table>
-    <h3>内容</h3>
-    <div class="text-left border">
-      <%= @game.description %>
-    </div>
-    <% if !!current_user.lastgames.find_by(id: @game.id) %>
-      <%= link_to '編集', edit_game_path(@game), class: 'btn btn-primary mt-5 mb-3' %>
-    <% end %>
-    <%= link_to "戻る", :back , class: 'btn btn-primary mt-5 mb-3' %>
+    <section>
+      <h3>内容</h3>
+      <div class="text-left border">
+        <%= @game.description %>
+      </div>
+      <% if logged_in? && !!current_user.lastgames.find_by(id: @game.id) %>
+        <%= link_to '編集', edit_game_path(@game), class: 'btn btn-success mt-5 mb-3' %>
+      <% end %>
+      <%= link_to "戻る", :back , class: 'btn btn-primary mt-3 mb-2' %>
+    </section>
+    <section class="mt-4">
+      <h3>コメント一覧</h3>
+      <ul class="list-unstyled text-left">
+        <% @comments.each do |comment| %>
+          <li class="border-top"><%= link_to comment.user.name, comment.user %></li>
+          <li class="border-bottom"><%= comment.content %></li>
+        <% end %>
+      </ul>
+      <% if logged_in? %>
+        <h3>コメント投稿</h3>
+        <%= form_with(model:[@game,@comment], local: true) do |f| %>
+          <div class="form-group">
+            <%= f.label :content, 'comment' %>
+            <%= f.text_area :content, class: 'form-control', rows: 3 %>
+          </div>
+          <%= f.submit 'コメント送信', data: { confirm: "入力データを送信して良いですか？" }, class: 'btn btn-primary btn-block' %>
+        <% end %>
+      <% else %>
+        <div class="col offset-3 col-6 alert alert-warning" role="alert">
+          コメントは<%= link_to "ログイン", login_path, class: 'btn btn-primary' %>時のみ行えます。
+        </div>
+      <% end %>
+      </section>
   </section>
 </container>

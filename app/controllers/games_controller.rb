@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :require_user_logged_in
+  before_action :require_user_logged_in, only: [:create, :edit, :update]
   
   def index
     @games = Game.order(id: :desc).page(params[:page]).per(10)
@@ -7,6 +7,8 @@ class GamesController < ApplicationController
   
   def show
     @game = Game.find(params[:id])
+    @comments = @game.comments
+    @comment = Comment.new
   end
   
   def create
