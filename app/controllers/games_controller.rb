@@ -31,7 +31,24 @@ class GamesController < ApplicationController
       redirect_to current_user
     end
   end
+  
+  def edit
+    @game = Game.find(params[:id])
+  end
 
+  def update
+    @game = Game.find(params[:id])
+    
+    if @game.update(game_params)
+      flash[:success] = "内容を更新しました"
+      redirect_to @game
+    else
+      flash.now[:danger] = "更新に失敗しました"
+      render :edit
+    end
+    
+  end
+  
   private
   
   def game_params

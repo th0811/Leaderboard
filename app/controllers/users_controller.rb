@@ -33,6 +33,7 @@ class UsersController < ApplicationController
   end
   
   def input
+    @game = Game.new
     if @user == current_user
       redirect_to @user
     end

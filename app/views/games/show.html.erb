@@ -1,7 +1,7 @@
 <container class="text-center">
   <section>
     <% if !logged_in? %>
-        <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary m-5' %>
+      <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary m-5' %>
     <% end %>
     <h1 class="m-3">Detail</h1>
     <table class="table table-bordered">
@@ -24,10 +24,13 @@
         </tr>
       </tbody>
     </table>
-    <h2>コメント</h2>
+    <h3>内容</h3>
     <div class="text-left border">
       <%= @game.description %>
     </div>
+    <% if !!current_user.lastgames.find_by(id: @game.id) %>
+      <%= link_to '編集', edit_game_path(@game), class: 'btn btn-primary mt-5 mb-3' %>
+    <% end %>
     <%= link_to "戻る", :back , class: 'btn btn-primary mt-5 mb-3' %>
   </section>
 </container>

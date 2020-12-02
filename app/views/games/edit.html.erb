@@ -1,5 +1,5 @@
 <container class="text-center">
-  <h1 class="m-3">Game detail</h1>
+  <h1 class="m-3">Edit Page</h1>
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -12,17 +12,16 @@
     </thead>
     <tbody>
       <tr>
-        <td><%= current_user.name %></td>
-        <td><%= current_user.rating %></td>
+        <td><%= @game.winner.name %></td>
+        <td><%= @game.winner.rating %></td>
         <td>vs</td>
-        <td><%= @user.rating %></td>
-        <td><%= @user.name %></td>
+        <td><%= @game.loser.rating %></td>
+        <td><%= @game.loser.name %></td>
       </tr>
     </tbody>
   </table>
   <%= form_with(model: @game, local: true) do |f| %>
     <div class="form-group">
-      <%= hidden_field_tag :loser_id, @user.id %>
       <%= f.label :description, 'comment' %>
       <%= f.text_area :description, class: 'form-control', rows: 15 %>
     </div>
