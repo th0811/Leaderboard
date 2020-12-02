@@ -1,0 +1,33 @@
+<container class="text-center">
+  <section>
+    <% if !logged_in? %>
+        <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary m-5' %>
+    <% end %>
+    <h1 class="m-3">Detail</h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Winner</th>
+          <th>Rating</th>
+          <th> </th>
+          <th>rating</th>
+          <th>Loser</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= @game.winner.name %></td>
+          <td><%= format("%.2f", @game.winner.rating) %></td>
+          <td>vs</td>
+          <td><%= format("%.2f", @game.loser.rating) %></td>
+          <td><%= @game.loser.name %></td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>コメント</h2>
+    <div class="text-left border">
+      <%= @game.description %>
+    </div>
+    <%= link_to "戻る", :back , class: 'btn btn-primary mt-5 mb-3' %>
+  </section>
+</container>

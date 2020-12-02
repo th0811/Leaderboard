@@ -3,7 +3,7 @@
     <% if !logged_in? %>
         <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary m-5' %>
     <% elsif current_user != @user %>
-      <%= link_to "I defeated this player", input_user_path, data: { confirm: "you sure?" }, class: 'btn btn-success mt-5 mb-3' %>
+      <%= link_to "I defeated this player", input_user_path, class: 'btn btn-success mt-5 mb-3' %>
     <% end %>
     <h1 class="m-3"><%= @user.name %>'s Profile</h1>
     <table class="table table-bordered">
@@ -37,6 +37,7 @@
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
+          <th></th>
           <th>Winner</th>
           <th>Winner Rating</th>
           <th> </th>
@@ -48,6 +49,7 @@
       <tbody>
       <% @games.each do |game| %>
         <tr>
+          <td><%= link_to "Detail", game %></td>
           <% if game.winner == @user %>
             <td class="bg-info font-weight-bold"><%= link_to game.winner.name, game.winner, :style=>"color:white;" %></td>
           <% else %>

@@ -15,4 +15,7 @@ Rails.application.routes.draw do
       get :search
     end
   end
+  
+  resources :games, only: [:index, :show, :create]
+  
 end

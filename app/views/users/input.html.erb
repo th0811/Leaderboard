@@ -1,0 +1,31 @@
+<container class="text-center">
+  <h1 class="m-3">Game detail</h1>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Winner</th>
+        <th>Rating</th>
+        <th> </th>
+        <th>Rating</th>
+        <th>Loser</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= current_user.name %></td>
+        <td><%= current_user.rating %></td>
+        <td>vs</td>
+        <td><%= @user.rating %></td>
+        <td><%= @user.name %></td>
+      </tr>
+    </tbody>
+  </table>
+  <%= form_with(model: Game.new, local: true) do |f| %>
+    <div class="form-group">
+      <%= hidden_field_tag :loser_id, @user.id %>
+      <%= f.label :description, 'comment' %>
+      <%= f.text_area :description, class: 'form-control', rows: 15 %>
+    </div>
+    <%= f.submit 'Post', data: { confirm: "入力データを送信して良いですか？" }, class: 'btn btn-primary btn-block' %>
+  <% end %>
+</container>

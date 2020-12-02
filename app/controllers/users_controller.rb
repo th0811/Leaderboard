@@ -33,21 +33,7 @@ class UsersController < ApplicationController
   end
   
   def input
-    game = Game.prep(current_user,@user)
-    
-    if game.save
-      flash[:success] = 'Successfully record a game'
-      winner, loser = prep_update(current_user, @user)
-      
-      if winner.save && loser.save
-        flash[:success] += ',Successfully update ratings'
-      else
-        flash[:danger] = 'failed to update ratings'
-      end
-      
-      redirect_to current_user
-    else
-      flash[:danger] = 'failed to record a game,' + game.errors.full_messages.join(',')
+    if @user == current_user
       redirect_to @user
     end
   end
@@ -65,21 +51,4 @@ class UsersController < ApplicationController
       redirect_to root_url
     end
   end
-  
-  def prep_update(winner,loser)
-    fluc = 0.04 * (loser.rating - winner.rating) + 16
-    if fluc > 32
-      fluc = 32
-    elsif fluc < 1
-      fluc = 1
-    end
-    
-    winner.rating += fluc
-    winner.wins = winner.won_games.count
-    loser.rating -= fluc
-    loser.losses = loser.lost_games.count
-    
-    return winner, loser
-  end
-  
 end
