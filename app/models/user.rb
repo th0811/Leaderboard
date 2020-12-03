@@ -14,6 +14,22 @@ class User < ApplicationRecord
     Game.where(winner_id: self.id).or(Game.where(loser_id: self.id)).order('created_at DESC').limit(num)
   end
 
+  def rating_data()
+    games = Game.where(winner_id: self.id).or(Game.where(loser_id: self.id)).order('created_at ASC')
+    data = []
+    time = 0
+    games.each do |game|
+      if game.winner == self
+        data.push([time, game.winner_rating])
+      elsif game.loser == self
+        data.push([time, game.loser_rating])
+      end
+      time += 1
+    end
+    data.push([time,self.rating])
+    return data
+  end
+
   def self.search(search)
     if search
       where(['name LIKE ?', "%#{search}%"])

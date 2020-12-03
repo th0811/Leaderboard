@@ -14,6 +14,7 @@ class UsersController < ApplicationController
 
   def show
     @games = @user.lastgames.page(params[:page]).per(10)
+    @data = @user.rating_data
   end
 
   def new
