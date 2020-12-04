@@ -12,11 +12,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><%= @game.winner.name %></td>
-        <td><%= @game.winner.rating %></td>
-        <td>vs</td>
-        <td><%= @game.loser.rating %></td>
-        <td><%= @game.loser.name %></td>
+        <td class="align-middle">
+          <% @game.winners.each do |winner| %>
+            <%= link_to winner.user.name, winner.user %><br>
+          <% end %>
+        </td>
+        <td class="align-middle">
+          <% @game.winners.each do |winner| %>
+            <%= format("%.2f", winner.user_rate) %><br>
+          <% end %>
+        </td>
+        <td class="align-middle">vs</td>
+        <td class="align-middle">
+          <% @game.losers.each do |loser| %>
+            <%= format("%.2f", loser.user_rate) %><br>
+          <% end %>
+        </td>
+        <td class="align-middle">
+          <% @game.losers.each do |loser| %>
+            <%= link_to loser.user.name, loser.user %><br>
+          <% end %>
+        </td>
       </tr>
     </tbody>
   </table>

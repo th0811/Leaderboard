@@ -1,0 +1,75 @@
+<script>
+$(document).on("click", ".add", function() {
+    $(this).parent().clone(true).insertAfter($(this).parent());
+});
+$(document).on("click", ".del", function() {
+    var target = $(this).parent();
+    if (target.parent().children().length > 1) {
+        target.remove();
+    }
+});
+
+$(function() {
+const dataList = function(request, response) {
+  $.ajax({
+    url: '/users/autocomplete_name/' + request.term,
+    dataType: 'json',
+    type: 'GET',
+    cache: true,
+    success: function(data) {
+      response(data);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      response(['']);
+    }
+  });
+}
+
+// #user_nameの部分は必要に応じてidなり指定してください
+$(".n").on("keydown", function() {
+    $(this).autocomplete({
+      source: dataList,
+      autoFocus: true, // 自動的に先頭の項目にフォーカスするか
+      delay: 10, // 入力してからサジェストが動くまでの時間(ms)
+      minLength: 1 // 2文字入力しないとサジェストが動かない
+    })
+    });
+});
+</script>
+
+<container class="text-center">
+  <h1 class="m-3">Input detail</h1>
+  <%= form_with(model: @game, local: true) do |f| %>
+    <div class="row">
+      <div class="form-group input_pluralBox offset-sm-2 col-sm-4">
+        <p class="bg-info font-weight-bold text-white">Winner</p>
+        <div id="input_plural">
+          <div class="d-flex m-1">
+            <%= f.text_field :user_name, placeholder: "input user name",class: 'n form-control', name: "user[][winner]" %>
+            <input type="button" value="＋" class="add pluralBtn">
+            <input type="button" value="－" class="del pluralBtn">
+          </div>
+        </div>
+      </div>
+      <div class="form-group input_pluralBox col-sm-4 ">
+        <p class="bg-danger font-weight-bold text-white">Loser</p>
+        <div id="input_plural">
+          <div class="d-flex m-1">
+            <%= f.text_field :user_name, placeholder: "input user name",class: 'n form-control', name: "user[][loser]" %>
+            <input type="button" value="＋" class="add pluralBtn">
+            <input type="button" value="－" class="del pluralBtn">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="offset-sm-2 col-sm-8 mt-5">
+        <%= f.label :description, 'comment' %>
+        <%= f.text_area :description, placeholder: "input comment", class: 'form-control', rows: 10 %>
+        <%= f.submit 'Post', data: { confirm: "入力データを送信して良いですか？" }, class: 'btn btn-primary btn-block offset-sm-4 col-sm-4' %>
+      </div>
+    </div>
+  <% end %>
+</container>
+
+ 

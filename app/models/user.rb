@@ -6,9 +6,23 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   
-  has_many :won_games, class_name: 'Game', foreign_key: 'winner_id'
-  has_many :lost_games, class_name: 'Game', foreign_key: 'loser_id'
+  has_many :players
+  has_many :games, through: :players, source: :game
   has_many :comments
+  
+  scope :by_name_like, lambda { |name|
+    where('name LIKE :value', { value: "#{sanitize_sql_like(name)}%"})
+  }
+  
+  def win(game)
+    self.players.find_or_create_by(game_id: game.id, user_rate: self.rating, wl: true)
+    self.update(wins: self.wins+1)
+  end
+  
+  def lose(game)
+    self.players.find_or_create_by(game_id: game.id, user_rate: self.rating, wl: false)
+    self.update(losses: self.losses+1)
+  end
   
   def lastgames(num=nil)
     Game.where(winner_id: self.id).or(Game.where(loser_id: self.id)).order('created_at DESC').limit(num)

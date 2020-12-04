@@ -6,10 +6,11 @@
         <li class="nav-item"><%= link_to 'Matching List', games_path, class: 'nav-link' %></li>
         <li class="nav-item"><%= link_to 'Users List', users_path, class: 'nav-link' %></li>
         <% if logged_in? %>
-          <li class="nav-item"><%= link_to 'My page', user_path(current_user), class: 'nav-link' %></li>
-          <li class="nav-item"><%= link_to 'Log Out', logout_path, method: :delete, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'MyPage', user_path(current_user), class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'InputMatch', input_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'LogOut', logout_path, method: :delete, class: 'nav-link' %></li>
         <% else %>
-          <li class="nav-item"><%= link_to 'Log In', login_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'LogIn', login_path, class: 'nav-link' %></li>
         <% end %>
       </ul>
   </nav>

@@ -1,22 +1,15 @@
 class Game < ApplicationRecord
-  belongs_to :winner, class_name: 'User'
-  belongs_to :loser, class_name: 'User'
+  validates :description, length: { maximum: 2000 }
   
-  validates :winner, presence: true
-  validates :winner_rating, presence: true
-  validates :loser, presence: true
-  validates :loser_rating, presence: true
-  validate :winner_and_loser_cannot_be_same
-  
+  has_many :players
+  has_many :users, through: :players, source: :user
   has_many :comments
 
-  def winner_and_loser_cannot_be_same
-    if winner == loser
-      errors.add(:base, "winner and loser cannot be same")
-    end
+  def winners
+    self.players.where(wl: true)
   end
   
-  def self.prep(winner,loser)
-    self.new(winner_id: winner.id, winner_rating: winner.rating, loser_id: loser.id, loser_rating: loser.rating)
+  def losers
+    self.players.where(wl: false)
   end
 end

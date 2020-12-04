@@ -60,11 +60,21 @@ gem 'kaminari'
 gem 'pry-byebug', group: :development
 
 
-# PostgreSQL
-group :production do
-  gem 'pg', '>= 0.18', '< 2.0'
-end
-
-
 # graph
 gem 'chartkick'
+
+# auto complete
+#gem 'rails4-autocomplete'
+gem 'bootstrap', '~> 4.1.1'
+gem 'jquery-ui-rails'
+gem 'jquery-rails'
+
+# PostgreSQL
+#group :production do
+#  gem 'pg', '>= 0.18', '< 2.0'
+#end
+
+
+
+
+

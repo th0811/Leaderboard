@@ -2,8 +2,6 @@
   <section>
     <% if !logged_in? %>
         <%= link_to "you want to recored a match? plsease log in. ", login_path, class: 'btn btn-primary m-5' %>
-    <% elsif current_user != @user %>
-      <%= link_to "I defeated this player", input_user_path, class: 'btn btn-success mt-5 mb-3' %>
     <% end %>
     <h1 class="m-3"><%= @user.name %>'s Profile</h1>
     <table class="table table-bordered">
@@ -50,21 +48,30 @@
       <tbody>
       <% @games.each do |game| %>
         <tr>
-          <td><%= link_to "Detail", game %></td>
-          <% if game.winner == @user %>
-            <td class="bg-info font-weight-bold"><%= link_to game.winner.name, game.winner, :style=>"color:white;" %></td>
-          <% else %>
-            <td><%= link_to game.winner.name, game.winner %></td>
-          <% end %>
-          <td><%= format("%.2f", game.winner_rating) %></td>
-          <td> vs </td>
-          <td><%= format("%.2f", game.loser_rating) %></td>
-          <% if game.loser == @user %>
-            <td class="bg-danger font-weight-bold"><%= link_to game.loser.name, game.loser, :style=>"color:white;" %></td>
-          <% else %>
-            <td><%= link_to game.loser.name, game.loser %></td>
-          <% end %>
-          <td><%= game.created_at.strftime('%Y-%m-%d %T') %></td>
+          <td class="align-middle"><%= link_to "Detail", game %></td>
+          <td class="align-middle">
+            <% game.winners.each do |winner| %>
+              <%= link_to winner.user.name, winner.user %><br>
+            <% end %>
+          </td>
+          <td class="align-middle">
+            <% game.winners.each do |winner| %>
+              <%= format("%.2f", winner.user_rate) %><br>
+            <% end %>
+          <td class="align-middle"> vs </td>
+          <td class="align-middle">
+            <% game.losers.each do |loser| %>
+              <%= format("%.2f", loser.user_rate) %><br>
+            <% end %>
+          </td>
+          <td class="align-middle">
+            <% game.losers.each do |loser| %>
+              <%= link_to loser.user.name, loser.user %><br>
+            <% end %>
+          </td>
+          <td class="align-middle">
+            <%= game.created_at.strftime('%Y-%m-%d %T') %>
+          </td>
         </tr>
       <% end %>
       </tbody>

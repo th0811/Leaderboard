@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_02_053659) do
+ActiveRecord::Schema.define(version: 2020_12_04_070353) do
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
@@ -23,15 +23,21 @@ ActiveRecord::Schema.define(version: 2020_12_02_053659) do
   end
 
   create_table "games", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "winner_id", null: false
-    t.float "winner_rating", null: false
-    t.bigint "loser_id", null: false
-    t.float "loser_rating", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
-    t.index ["loser_id"], name: "index_games_on_loser_id"
-    t.index ["winner_id"], name: "index_games_on_winner_id"
+  end
+
+  create_table "players", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "user_id"
+    t.float "user_rate"
+    t.boolean "wl"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_players_on_game_id"
+    t.index ["user_id", "game_id"], name: "index_players_on_user_id_and_game_id", unique: true
+    t.index ["user_id"], name: "index_players_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -47,6 +53,6 @@ ActiveRecord::Schema.define(version: 2020_12_02_053659) do
 
   add_foreign_key "comments", "games"
   add_foreign_key "comments", "users"
-  add_foreign_key "games", "users", column: "loser_id"
-  add_foreign_key "games", "users", column: "winner_id"
+  add_foreign_key "players", "games"
+  add_foreign_key "players", "users"
 end

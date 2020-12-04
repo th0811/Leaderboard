@@ -7,15 +7,13 @@ Rails.application.routes.draw do
   
   get 'signup', to: 'users#new'
   resources :users, only: [:index, :show, :create] do
-    member do
-      get :input
-    end
-
+    get '/autocomplete_name/:name', on: :collection, action: :autocomplete_name
     collection do
       get :search
     end
   end
   
+  get 'input', to: 'games#new'
   resources :games, only: [:index, :show, :create, :edit, :update] do
     resources :comments, only: [:create, :destroy]
   end

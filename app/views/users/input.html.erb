@@ -1,31 +1,40 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).on("click", ".add", function() {
+    $(this).parent().clone(true).insertAfter($(this).parent());
+});
+$(document).on("click", ".del", function() {
+    var target = $(this).parent();
+    if (target.parent().children().length > 1) {
+        target.remove();
+    }
+});
+</script>
 <container class="text-center">
-  <h1 class="m-3">Game detail</h1>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Winner</th>
-        <th>Rating</th>
-        <th> </th>
-        <th>Rating</th>
-        <th>Loser</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><%= current_user.name %></td>
-        <td><%= current_user.rating %></td>
-        <td>vs</td>
-        <td><%= @user.rating %></td>
-        <td><%= @user.name %></td>
-      </tr>
-    </tbody>
-  </table>
+  <h1 class="m-3">Input detail</h1>
   <%= form_with(model: @game, local: true) do |f| %>
-    <div class="form-group">
-      <%= hidden_field_tag :loser_id, @user.id %>
-      <%= f.label :description, 'comment' %>
-      <%= f.text_area :description, class: 'form-control', rows: 15 %>
+    <div class="row">
+      <div class="form-group input_pluralBox offset-sm-1 col-sm-4">
+        <div id="input_plural">
+          <div class="d-flex m-1">
+            <%= f.text_field :winner, class: 'form-control', name: "item[][winner]" %>
+            <input type="button" value="＋" class="add pluralBtn">
+            <input type="button" value="－" class="del pluralBtn">
+          </div>
+        </div>
+      </div>
+      <div class="form-group input_pluralBox offset-sm-1 col-sm-4 ">
+        <div id="input_plural">
+          <div class="d-flex m-1">
+            <%= f.autocomplete_field :user_name, autocomplete_user_name_users_path, class: 'form-control' %>
+            <input type="button" value="＋" class="add pluralBtn">
+            <input type="button" value="－" class="del pluralBtn">
+          </div>
+        </div>
+      </div>
     </div>
-    <%= f.submit 'Post', data: { confirm: "入力データを送信して良いですか？" }, class: 'btn btn-primary btn-block' %>
+    <%= f.submit 'Post', data: { confirm: "入力データを送信して良いですか？" }, class: 'btn btn-primary btn-block offset-sm-4 col-sm-4' %>
   <% end %>
 </container>
+
+ 
