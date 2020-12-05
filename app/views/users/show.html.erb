@@ -32,7 +32,7 @@
   </section>
   <section>
     <h1 class="mt-5 mb-3"><%= @user.name %>'s Records</h1>
-    <div><%= line_chart @data,min:1400 %></div>
+    <div><%= line_chart @data, min:@min %></div>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -51,7 +51,8 @@
           <td class="align-middle"><%= link_to "Detail", game %></td>
           <td class="align-middle">
             <% game.winners.each do |winner| %>
-              <%= link_to winner.user.name, winner.user %><br>
+              <% accepted = winner.user == @user %>
+              <p class='m-0 <%= 'bg-info' if accepted %>'><%= link_to winner.user.name, winner.user,class: "#{'font-weight-bold text-white' if accepted}" %></p>
             <% end %>
           </td>
           <td class="align-middle">
@@ -66,7 +67,8 @@
           </td>
           <td class="align-middle">
             <% game.losers.each do |loser| %>
-              <%= link_to loser.user.name, loser.user %><br>
+              <% accepted = loser.user == @user %>
+              <p class='m-0 <%= 'bg-danger' if accepted %>'><%= link_to loser.user.name, loser.user,class: "#{'font-weight-bold text-white' if accepted}" %></p>
             <% end %>
           </td>
           <td class="align-middle">

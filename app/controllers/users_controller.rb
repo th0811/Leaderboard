@@ -13,14 +13,17 @@ class UsersController < ApplicationController
   end
 
   def show
-    @games = @user.games.order(created_at: :desc).page(params[:page])
+    @games = @user.games.order(created_at: :desc).page(params[:page]).per(10)
 
+    @min = @user.rating
     @data = []
     i = 0
     @user.players.each do |p|
       @data.push([i, p.user_rate])
+      @min = p.user_rate if @min > p.user_rate 
       i += 1
     end
+    @min -= 50
     @data.push([i, @user.rating])
   end
 
